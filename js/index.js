@@ -1,43 +1,64 @@
 
 const cards = {
-  1: { title: "test", todos: { name: "salut" } },
-  2: { title: "test", todos: { name: "salut" } },
-  3: { title: "test", todos: { name: "salut" } },
-  4: { title: "test", todos: { name: "salut" } },
+    1: { 
+        title: "Liste Principale", 
+        todos: [ 
+            { name: "salut" }, 
+            { name: "test" },
+            { name: "test" },
+            { name: "test" },
+        ] 
+    },
+    2: {
+        title: "Liste Secondaire",
+        todos: [
+            { name: "Acheter du pain" }
+        ]
+    }
 };
 
+function LoadCards() {
+    const wrapper = document.getElementById('wrapper');
 
-                // <div class="card">
-                //     <h1 class="ml-2" id="title">TITLE CARD</h1>
-                //     <div class="card-content">
-                //         <button class="button btn-card mt-3">TITLE TODO</button>
-                //         <button class="button btn-card mt-3">ADD NEW CARD</button>
-                //     </div>
-                // </div>
-
-document.addEventListener('DOMContentLoaded', (e) => {
     for (const id in cards) {
         const card = cards[id];
 
         const div = document.createElement('div');
-        div.classList = 'card';
-
+        div.className = 'card'; 
         const title = document.createElement('h1');
-        title.classList = 'ml-2';
+        title.classList.add('ml-2');
         title.id = 'title';
-        title.textContent = cards[id].title;
+        title.textContent = card.title;
         div.appendChild(title);
 
         const card_content = document.createElement('div');
-        card_content.classList = 'card-content';
+        card_content.className = 'card-content';
         div.appendChild(card_content);
 
-        const btn_card = document.createElement('button');
-        btn_card.classList = 'button btn-card mt-3';
-        btn_card.textContent = cards[id].title;
-        card_content.appendChild(btn_card);
+            
+        for (const todo of card.todos) {
+            const btn_todo = document.createElement('button');
+            btn_todo.className = 'button btn-card mt-3'; 
+            btn_todo.textContent = todo.name;
+            
+            card_content.appendChild(btn_todo);
+        }
 
-        const wrapper = document.getElementById('wrapper');
+        const btn_addnew = document.createElement('button');
+        btn_addnew.className = 'button btn-card mt-3 addnewtodo'; 
+        btn_addnew.textContent = "Add new todo";
+        card_content.appendChild(btn_addnew);
+
         wrapper.appendChild(div);
     }
+}
+
+
+document.addEventListener('DOMContentLoaded', (e) => {
+  LoadCards();
+
+  const AddNewTodo = document.getElementById('addnewtodo');
+  AddNewTodo.addEventListener('click', () => {
+    
+  });
 });
