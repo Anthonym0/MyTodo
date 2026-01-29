@@ -48,6 +48,14 @@ function LoadCards() {
 
         wrapper.appendChild(div);
     }
+
+    const AddNewTodo = document.getElementsByClassName("addnewtodo");
+    for (const btn of AddNewTodo) {
+        btn.addEventListener('click', () => {
+            addTodoInputs(btn.id);
+        })
+    }
+
 }
 
 function saveTodo(data) {
@@ -95,12 +103,6 @@ async function addTodoInputs(id) {
 document.addEventListener('DOMContentLoaded', (e) => {
   LoadCards();
 
-    const AddNewTodo = document.getElementsByClassName("addnewtodo");
-    for (const btn of AddNewTodo) {
-        btn.addEventListener('click', () => {
-            addTodoInputs(btn.id);
-        })
-    }
 
 
 
