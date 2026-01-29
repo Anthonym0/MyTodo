@@ -33,10 +33,31 @@ function LoadCards() {
 
             
         for (const todo of card.todos) {
-            const btn_todo = document.createElement('button');
-            btn_todo.className = 'button btn-card mt-3'; 
-            btn_todo.textContent = todo.title;
+            const btn_todo = document.createElement('div'); 
+            btn_todo.className = 'button btn-card mt-3 is-flex is-justify-content-space-between is-align-items-center'; 
+            btn_todo.id = card.todos.indexOf(todo);
+
+            const todoTitle = document.createElement('span');
+            todoTitle.textContent = todo.title;
+            btn_todo.appendChild(todoTitle);
+
+            const deletebtn = document.createElement('button');
+            deletebtn.className = 'button is-danger is-small actionbtn'; 
             
+            const span = document.createElement('span');
+            span.className = 'icon'; 
+            
+            const i = document.createElement('i');
+            i.className = 'fa-solid fa-trash'; 
+            
+            span.appendChild(i);
+            deletebtn.appendChild(span);
+            btn_todo.appendChild(deletebtn);
+
+            deletebtn.addEventListener('click', (e) => {
+                deleteTodo(div.id, btn_todo.id);
+            });
+
             card_content.appendChild(btn_todo);
         }
 
@@ -58,9 +79,13 @@ function LoadCards() {
 
 }
 
+function deleteTodo(index_card, index_todo) {
+    cards[index_card].todos.splice(index_todo, 1);
+    LoadCards();
+}
+
 function saveTodo(data) {
     cards[data.id].todos.push(data)
-    console.log(cards[data.id]);
     LoadCards();
 }
 
