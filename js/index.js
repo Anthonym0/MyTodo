@@ -38,26 +38,48 @@ function LoadCards() {
             btn_todo.id = card.todos.indexOf(todo);
 
             const todoTitle = document.createElement('span');
+            todoTitle.style.overflow = "hidden";
+            todoTitle.style.textOverflow = "ellipsis";
             todoTitle.textContent = todo.title;
             btn_todo.appendChild(todoTitle);
+
+            const actionsContainer = document.createElement('div');
+            actionsContainer.className = 'is-flex'; 
+
+            const editbtn = document.createElement('button');
+            editbtn.className = 'button is-info is-small actionbtn'; 
+            
+            const spanedit = document.createElement('span');
+            spanedit.className = 'icon'; 
+            const iedit = document.createElement('i');
+            iedit.className = 'fa-solid fa-pen-to-square'; 
+            
+            spanedit.appendChild(iedit);
+            editbtn.appendChild(spanedit);
+            
+            editbtn.addEventListener('click', () => {
+                editTodo(div.id, btn_todo.id); 
+            });
 
             const deletebtn = document.createElement('button');
             deletebtn.className = 'button is-danger is-small actionbtn'; 
             
             const span = document.createElement('span');
             span.className = 'icon'; 
-            
             const i = document.createElement('i');
             i.className = 'fa-solid fa-trash'; 
             
             span.appendChild(i);
             deletebtn.appendChild(span);
-            btn_todo.appendChild(deletebtn);
 
             deletebtn.addEventListener('click', (e) => {
                 deleteTodo(div.id, btn_todo.id);
             });
 
+            actionsContainer.appendChild(editbtn);
+            actionsContainer.appendChild(deletebtn);
+            
+            btn_todo.appendChild(actionsContainer);
             card_content.appendChild(btn_todo);
         }
 
@@ -79,8 +101,50 @@ function LoadCards() {
 
 }
 
+async function editTodo(index_card, index_todo) {
+    const data = {
+        title: "",
+        description: "",
+        id: index_card,
+    }
+
+    const { value: formValues } = await Swal.fire({
+        title: "Edit Todo",
+        html: `
+            <input id="addtodo_title_input" class="swal2-input" placeholder="Title">
+            <textarea class="swal2-textarea" id="addtodo_description_input" rows="5" placeholder="Description of your task"></textarea>
+        `,
+        backdrop: false,
+        focusConfirm: false,
+        preConfirm: () => {
+            return [
+                data.title = document.getElementById('addtodo_title_input').value,
+                data.description = document.getElementById('addtodo_title_input').value,
+            ];
+        }
+    });
+
+    if (formValues) {
+        updateTodo(data, index_card, index_todo);
+
+        Swal.fire({
+            title: "Success",
+            text: "Your todo has been edited.",
+            icon: "success",
+            backdrop: false,
+        });
+    }
+}
+
 function deleteTodo(index_card, index_todo) {
     cards[index_card].todos.splice(index_todo, 1);
+    LoadCards();
+}
+
+function updateTodo(data, index_card, index_todo) {
+    cards[index_card].todos[index_todo].title = data.title;
+    cards[index_card].todos[index_todo].description = data.description;
+
     LoadCards();
 }
 
@@ -117,8 +181,7 @@ async function addTodoInputs(id) {
             title: "Success",
             text: "Your todo has been successfully saved.",
             icon: "success",
-            draggable: true,
-            backdrop: false,
+                backdrop: false,
         });
 
         saveTodo(data);
@@ -127,10 +190,4 @@ async function addTodoInputs(id) {
 
 document.addEventListener('DOMContentLoaded', (e) => {
   LoadCards();
-
-
-
-
-
-  
 });
