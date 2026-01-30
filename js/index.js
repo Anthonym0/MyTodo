@@ -129,7 +129,7 @@ async function editTodo(index_card, index_todo) {
             preConfirm: () => {
                 return [
                     data.title = document.getElementById('addtodo_title_input').value,
-                    data.description = document.getElementById('addtodo_title_input').value,
+                    data.description = document.getElementById('addtodo_description_input').value,
                 ];
             }
         });
