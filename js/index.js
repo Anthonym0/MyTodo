@@ -1,23 +1,13 @@
-const cards = {
-    1: { 
+const cards = [
+    { 
         title: "Liste Principale", 
         todos: [] 
     },
-    2: {
+    {
         title: "Liste Secondaire",
-        todos: [
-            { title: "Acheter du pain", description: "achete du pain wsh" }
-        ]
-    },
-    3: { 
-        title: "Liste Principale", 
-        todos: [] 
-    },
-    4: { 
-        title: "Liste Principale", 
-        todos: [] 
-    },
-};
+        todos: [{ title: "Acheter du pain", description: "..." }]
+    }
+];
 
 function LoadCards() {
     const wrapper = document.getElementById('wrapper');
@@ -197,6 +187,45 @@ async function addTodoInputs(id) {
     }
 }
 
+async function newCard() {
+    let data = {
+        title: "",
+        todos: [],
+    }
+
+    const { value: formValues } = await Swal.fire({
+        title: "New card",
+        html: `
+            <input id="addcard_title_input" class="swal2-input" placeholder="Title">
+        `,
+        backdrop: false,
+        focusConfirm: false,
+        preConfirm: () => {
+            return [
+                data.title = document.getElementById('addcard_title_input').value,
+            ];
+        }
+    });
+
+    if (formValues) {
+        Swal.fire({
+            title: "Success",
+            text: "Your card has been successfully created.",
+            icon: "success",
+                backdrop: false,
+        });
+
+        cards.push(data);
+        LoadCards();
+    }
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   LoadCards();
+
+  const newCardBtn = document.getElementById('new_card_btn');
+  newCardBtn.addEventListener('click', () => {
+    newCard();
+  });
 });
