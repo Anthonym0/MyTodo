@@ -23,6 +23,8 @@ function LoadCards() {
         const title = document.createElement('h1');
         title.classList.add('ml-2');
         title.textContent = card.title;
+        title.style.overflow = "hidden";
+        title.style.textOverflow = "ellipsis";
         div.appendChild(title);
 
         const card_content = document.createElement('div');

@@ -42,6 +42,8 @@ body {
     gap: 2em; 
     padding: 0 2em; 
     justify-content: center; 
+    max-height: 95vh; 
+    overflow-y: auto;
 }
 
 .actionbtn {
