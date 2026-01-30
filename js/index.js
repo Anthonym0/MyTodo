@@ -6,9 +6,17 @@ const cards = {
     2: {
         title: "Liste Secondaire",
         todos: [
-            { title: "Acheter du pain", description: "" }
+            { title: "Acheter du pain", description: "achete du pain wsh" }
         ]
-    }
+    },
+    3: { 
+        title: "Liste Principale", 
+        todos: [] 
+    },
+    4: { 
+        title: "Liste Principale", 
+        todos: [] 
+    },
 };
 
 function LoadCards() {
@@ -108,21 +116,23 @@ async function editTodo(index_card, index_todo) {
         id: index_card,
     }
 
+    const oldtitle = cards[index_card].todos[index_todo].title;
+    const olddescription = cards[index_card].todos[index_todo].description;
+
     const { value: formValues } = await Swal.fire({
         title: "Edit Todo",
         html: `
-            <input id="addtodo_title_input" class="swal2-input" placeholder="Title">
-            <textarea class="swal2-textarea" id="addtodo_description_input" rows="5" placeholder="Description of your task"></textarea>
-        `,
-        backdrop: false,
-        focusConfirm: false,
-        preConfirm: () => {
-            return [
-                data.title = document.getElementById('addtodo_title_input').value,
-                data.description = document.getElementById('addtodo_title_input').value,
-            ];
-        }
-    });
+            <input id="addtodo_title_input" class="swal2-input" placeholder="Title" value="${oldtitle}">
+            <textarea class="swal2-textarea" id="addtodo_description_input" rows="5" placeholder="Description of your task">${olddescription}</textarea>
+            `,
+            backdrop: false,
+            preConfirm: () => {
+                return [
+                    data.title = document.getElementById('addtodo_title_input').value,
+                    data.description = document.getElementById('addtodo_title_input').value,
+                ];
+            }
+        });
 
     if (formValues) {
         updateTodo(data, index_card, index_todo);
@@ -144,7 +154,6 @@ function deleteTodo(index_card, index_todo) {
 function updateTodo(data, index_card, index_todo) {
     cards[index_card].todos[index_todo].title = data.title;
     cards[index_card].todos[index_todo].description = data.description;
-
     LoadCards();
 }
 
@@ -188,6 +197,6 @@ async function addTodoInputs(id) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', (e) => {
+document.addEventListener('DOMContentLoaded', () => {
   LoadCards();
 });
