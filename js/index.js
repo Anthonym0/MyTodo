@@ -225,6 +225,15 @@ async function newCard() {
         }
     });
 
+    if (IsEmpty(data.title)) {
+        Swal.fire({
+            title: "Error",
+            text: "You must add a title to your task.",
+            icon: "error",
+            backdrop: false,
+        });
+        return;
+    }
     if (formValues) {
         Swal.fire({
             title: "Success",
