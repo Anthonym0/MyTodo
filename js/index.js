@@ -154,6 +154,12 @@ function saveTodo(data) {
     LoadCards();
 }
 
+function IsEmpty(text) {
+    if (!text.trim().length)
+        return true;
+    return false
+}
+
 async function addTodoInputs(id) {
     let data = {
         title: "",
@@ -171,12 +177,22 @@ async function addTodoInputs(id) {
         focusConfirm: false,
         preConfirm: () => {
             return [
+                
                 data.title = document.getElementById('addtodo_title_input').value,
                 data.description = document.getElementById('addtodo_title_input').value,
             ];
         }
     });
-
+    
+    if (IsEmpty(data.title)) {
+        Swal.fire({
+            title: "Error",
+            text: "You must add a title to your task.",
+            icon: "error",
+            backdrop: false,
+        });
+        return;
+    }
     if (formValues) {
         Swal.fire({
             title: "Success",
