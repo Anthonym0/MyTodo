@@ -1,12 +1,12 @@
 const cards = [
-    { 
-        title: "Liste Principale", 
-        todos: [] 
-    },
-    {
-        title: "Liste Secondaire",
-        todos: [{ title: "Acheter du pain", description: "..." }]
-    }
+    // { 
+    //     title: "Liste Principale", 
+    //     todos: [] 
+    // },
+    // {
+    //     title: "Liste Secondaire",
+    //     todos: [{ title: "Acheter du pain", description: "..." }]
+    // }
 ];
 
 function LoadCards() {
@@ -177,9 +177,8 @@ async function addTodoInputs(id) {
         focusConfirm: false,
         preConfirm: () => {
             return [
-                
                 data.title = document.getElementById('addtodo_title_input').value,
-                data.description = document.getElementById('addtodo_title_input').value,
+                data.description = document.getElementById('addtodo_description_input').value,
             ];
         }
     });
