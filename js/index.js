@@ -14,6 +14,11 @@ function deleteTodo(index) {
     LoadCards();
 }
 
+function SaveAllTodos() {
+    const json = JSON.stringify(cards);
+    document.cookie = "data=" + json;
+}
+
 function LoadCards() {
     const wrapper = document.getElementById('wrapper');
     wrapper.innerHTML = "";
@@ -125,7 +130,8 @@ function LoadCards() {
             addTodoInputs(btn.id);
         })
     }
-
+    
+    SaveAllTodos();
 }
 
 async function editTodo(index_card, index_todo) {
