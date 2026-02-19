@@ -1,13 +1,18 @@
 const cards = [
-    // { 
-    //     title: "Liste Principale", 
-    //     todos: [] 
-    // },
-    // {
-    //     title: "Liste Secondaire",
-    //     todos: [{ title: "Acheter du pain", description: "..." }]
-    // }
+    { 
+        title: "Liste Principale", 
+        todos: [] 
+    },
+    {
+        title: "Liste Secondaire",
+        todos: [{ title: "Acheter du pain", description: "..." }]
+    }
 ];
+
+function deleteTodo(index) {
+    cards.splice(index, 1);
+    LoadCards();
+}
 
 function LoadCards() {
     const wrapper = document.getElementById('wrapper');
@@ -20,12 +25,34 @@ function LoadCards() {
         div.className = 'card'; 
         div.id = id;
 
+        const div_top = document.createElement('div');
+        div_top.className = 'is-flex is-justify-content-space-between'; 
+        div_top.id = id;
+
         const title = document.createElement('h1');
         title.classList.add('ml-2');
         title.textContent = card.title;
-        title.style.overflow = "hidden";
-        title.style.textOverflow = "ellipsis";
-        div.appendChild(title);
+        title.style.whiteSpace = "nowrap";
+        div_top.appendChild(title);
+
+        const deleteCard = document.createElement('button');
+        deleteCard.className = 'button is-danger is-small actionbtn';
+        deleteCard.style.whiteSpace = "nowrap";
+        div_top.appendChild(deleteCard);
+        
+        const span = document.createElement('span');
+        span.className = 'icon'; 
+        const i = document.createElement('i');
+        i.className = 'fa-solid fa-trash'; 
+        
+        span.appendChild(i);
+        deleteCard.appendChild(span);
+
+        deleteCard.addEventListener('click', () => {
+            deleteTodo(div.id);
+        });
+
+        div.appendChild(div_top);
 
         const card_content = document.createElement('div');
         card_content.className = 'card-content';
@@ -73,7 +100,7 @@ function LoadCards() {
             deletebtn.appendChild(span);
 
             deletebtn.addEventListener('click', (e) => {
-                deleteTodo(div.id, btn_todo.id);
+                deleteTask(div.id, btn_todo.id);
             });
 
             actionsContainer.appendChild(editbtn);
@@ -138,7 +165,7 @@ async function editTodo(index_card, index_todo) {
     }
 }
 
-function deleteTodo(index_card, index_todo) {
+function deleteTask(index_card, index_todo) {
     cards[index_card].todos.splice(index_todo, 1);
     LoadCards();
 }
