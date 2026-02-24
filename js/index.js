@@ -1,13 +1,4 @@
-const cards = [
-    { 
-        title: "Liste Principale", 
-        todos: [] 
-    },
-    {
-        title: "Liste Secondaire",
-        todos: [{ title: "Acheter du pain", description: "..." }]
-    }
-];
+let cards = [];
 
 function deleteTodo(index) {
     cards.splice(index, 1);
@@ -15,8 +6,17 @@ function deleteTodo(index) {
 }
 
 function SaveAllTodos() {
-    const json = JSON.stringify(cards);
-    document.cookie = "data=" + json;
+    try {
+        const json = JSON.stringify(cards);
+        localStorage.setItem("myTodos", json);
+    } catch (e) {
+        console.error("Erreur lors de la sauvegarde : ", e);
+    }
+}
+
+function LoadAllTodos() {
+    const savedData = localStorage.getItem("myTodos");
+    return savedData ? JSON.parse(savedData) : [];
 }
 
 function LoadCards() {
@@ -281,10 +281,11 @@ async function newCard() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  LoadCards();
+    cards = LoadAllTodos();
+    LoadCards();
 
-  const newCardBtn = document.getElementById('new_card_btn');
-  newCardBtn.addEventListener('click', () => {
-    newCard();
-  });
+    const newCardBtn = document.getElementById('new_card_btn');
+    newCardBtn.addEventListener('click', () => {
+        newCard();
+    });
 });
